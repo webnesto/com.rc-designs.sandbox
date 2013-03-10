@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		function foo(params){
+			var _cow = (params) ? params.cow || "foo" : "bar";
+			console.log(_cow);
+		}
+		
+		foo();
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

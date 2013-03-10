@@ -1,0 +1,148 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		var Foo = (function () {
+		
+			function _Foo(){
+				var _this = this
+					, _testArray = []
+				;
+				
+				_this.testingTheFoo = function () {
+					console.log("Foobity Foo!");
+				}
+				
+				_this.putArray = function (item) {
+					_testArray.push(item);
+				}
+				
+				_this.getArray = function () {
+					return _testArray;
+				}
+				
+				_this.klass = function(){
+					return Foo;
+				}
+				
+				return _this
+			}
+		
+			return _Foo;
+		})();
+		
+		var SubFoo = (function () {
+			
+			var _protoed = false;
+			
+			
+			function _SubFoo(){
+				//if(!_protoed){
+					//arguments.callee.prototype = new Foo();
+				//}
+				Foo.apply(this);
+				//this.constructor = SubFoo;
+				
+				var _this = this
+					,_super = {
+						testingTheFoo : _this.testingTheFoo
+					}
+				;
+				
+				_this.testingTheFoo = function() {
+					console.log("Sub Foobity Sub Foo!");
+					
+					_super.testingTheFoo();
+				}
+				
+				_this.klass = function(){
+					return SubFoo;
+				}
+				
+				return _this;
+			}
+			
+			_SubFoo.prototype = new Foo();
+			_SubFoo.prototype.constructor = _SubFoo;
+		
+			return _SubFoo;
+		})();
+		
+		var Page = ( function() {
+		
+			return {
+				
+				test : function() {
+					var 
+						foo = new Foo()
+					, 	subfoo = new SubFoo()
+					, 	array = []
+					, 	str = ""
+					, 	num = 10
+					, 	bool = false
+					, 	obj = {}
+					, 	func = function(){}	
+					, 	items = [
+							foo,
+							subfoo,
+							array,
+							str,
+							num,
+							bool,
+							obj,
+							func
+						]
+					;
+					
+					
+					function getType(item){
+					  	switch (true) {
+					  		case item instanceof SubFoo:
+					  			console.log(item, "is a SubFoo");
+					  		break;
+					  		case item instanceof Foo:
+					  			console.log(item, "is a Foo");
+					  		break;
+					  		case item.constructor == String:
+								case item.constructor == Number:
+					  			console.log(item, "is a String/Number");
+					  		break;
+					  		case item instanceof Array:
+					  			console.log(item, "is a Array");
+					  		break;
+					  		case item.constructor == Boolean:
+					  			console.log(item, "is a Boolean");
+					  		break;
+					  		case item instanceof Function:
+					  			console.log(item, "is a Function");
+					  		break;
+					  		case item instanceof Object:
+					  			console.log(item, "is a Object");
+					  		break;
+							default:
+								console.log(item, "was not found");
+							break;
+					  	}
+				  	}
+					
+					for (var i=0,len=items.length; i<len; i++){
+						getType(items[i]);
+					}
+					
+					console.log( "subfoo.constructor == SubFoo", ( subfoo.constructor == SubFoo ) );
+				}
+				
+				
+			
+			}
+		
+		})();
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

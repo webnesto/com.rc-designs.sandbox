@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		var Foo = (function () {
+			var _C = {
+					TEST: "constantTest"
+				}
+			;
+			
+			function Foo(){
+				var _this = this
+					, _testArray = []
+				;
+				
+				_this.testingTheFoo = function () {
+					console.log("Foobity Foo!");
+				}
+				
+				_this.putArray = function (item) {
+					_testArray.push(item);
+				}
+				
+				_this.getArray = function () {
+					return _testArray;
+				}
+				
+				_this.CONST = _C; //publicly available on instance now
+				
+				return _this
+			}
+			
+			Foo.CONST = _C; //publicly available on Class now
+		
+			return Foo;
+		})();
+		
+		var SubFoo = (function () {
+			
+			function SubFoo(){
+				Foo.apply(this)
+				var _this = this
+					,_super = {
+						testingTheFoo : _this.testingTheFoo
+					}
+				;
+				
+				_this.testingTheFoo = function() {
+					console.log("Sub Foobity Sub Foo!");
+					
+					_super.testingTheFoo();
+				}
+				
+				return _this;
+			}
+			
+			SubFoo.prototype = new Foo();
+			
+			SubFoo.CONST = Foo.CONST; //Have to explicitly inherit constant if you want available on subclass
+			/*
+			 * Alternatively if the constant is needed within the class definition a private variable could be defined above
+			 * 
+			 * var _CONST = Foo.CONST;
+			 * 
+			 * and then used for all other references throughout
+			 */
+		
+			return SubFoo;
+		})();
+		
+		var Page = ( function() {
+		
+			return {
+				
+				test : function() {
+					var foo = new Foo();
+					var subfoo = new SubFoo();
+					
+					console.log("Class: Foo.CONST", Foo.CONST.TEST);
+					console.log("SubClass: SubFoo.CONST", SubFoo.CONST.TEST);
+					console.log("Instance: foo.CONST", foo.CONST.TEST);
+					console.log("Instance: subfoo.CONST", subfoo.CONST.TEST);
+				}
+			
+			}
+		
+		})();
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

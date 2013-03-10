@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		var Foo = (function () {
+		
+			function Foo(){
+				var _this = this
+					, _testArray = []
+				;
+				
+				_this.testingTheFoo = function () {
+					console.log("Foobity Foo!");
+				}
+				
+				_this.putArray = function (item) {
+					_testArray.push(item);
+				}
+				
+				_this.getArray = function () {
+					return _testArray;
+				}
+				
+				return _this
+			}
+		
+			return Foo;
+		})();
+		
+		var SubFoo = (function () {
+			var _Parent = Foo;
+			
+			function _setParent(){
+				SubFoo.prototype = new _Parent();
+			}
+			
+			function SubFoo(){
+				//_setParent();
+				_Parent.apply(this)
+				var _this = this
+					,_super = {
+						testingTheFoo : _this.testingTheFoo
+					}
+				;
+				
+				_this.testingTheFoo = function() {
+					console.log("Sub Foobity Sub Foo!");
+					
+					_super.testingTheFoo();
+				}
+				
+				return _this;
+			}
+			SubFoo.prototype = new _Parent();
+			
+			return SubFoo;
+		})();
+		
+		var Page = ( function() {
+		
+			return {
+				
+				test : function() {
+					var foo = new SubFoo();
+					foo.testingTheFoo();
+					foo.putArray("foo");
+					foo.putArray("bar");
+					foo.putArray("cow");
+					
+					var bar = new SubFoo();
+					bar.putArray("blah");
+					
+					console.log("foo array", foo.getArray());
+					console.log("bar array", bar.getArray());
+					
+					console.log("foo instance of SubFoo", (foo instanceof SubFoo));
+					console.log("foo instance of Foo", (foo instanceof Foo));
+				}
+			
+			}
+		
+		})();
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

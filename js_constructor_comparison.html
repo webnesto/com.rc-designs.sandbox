@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		var Foo = (function () {
+		
+			function _Foo(){
+				var _this = this
+					, _testArray = []
+				;
+				
+				_this.testingTheFoo = function () {
+					console.log("Foobity Foo!");
+				}
+				
+				_this.putArray = function (item) {
+					_testArray.push(item);
+				}
+				
+				_this.getArray = function () {
+					return _testArray;
+				}
+				
+				_this.klass = function(){
+					return Foo;
+				}
+				
+				return _this
+			}
+		
+			return _Foo;
+		})();
+		
+		var SubFoo = (function () {
+			
+			function _SubFoo(){
+				Foo.apply(this);
+				this.constructor = SubFoo;
+				
+				var _this = this
+					,_super = {
+						testingTheFoo : _this.testingTheFoo
+					}
+				;
+				
+				_this.testingTheFoo = function() {
+					console.log("Sub Foobity Sub Foo!");
+					
+					_super.testingTheFoo();
+				}
+				
+				_this.klass = function(){
+					return SubFoo;
+				}
+				
+				return _this;
+			}
+			
+			_SubFoo.prototype = new Foo();
+		
+			return _SubFoo;
+		})();
+		
+		var Page = ( function() {
+		
+			return {
+				
+				test : function() {
+					var foo = new Foo();
+					var subfoo = new SubFoo();
+					subfoo.testingTheFoo();
+					subfoo.putArray("foo");
+					subfoo.putArray("bar");
+					subfoo.putArray("cow");
+				
+					
+					console.log("foo array", foo.getArray());
+					console.log("subfoo array", subfoo.getArray());
+					
+					
+					console.log("foo instance of SubFoo", (foo instanceof SubFoo));
+					console.log("foo instance of Foo", (foo instanceof Foo));
+					console.log("subfoo instance of SubFoo", (subfoo instanceof SubFoo));
+					console.log("subfoo instance of Foo", (subfoo instanceof Foo));
+					
+					
+					console.log("foo.constructor == SubFoo", foo.constructor == SubFoo);
+					console.log("foo.constructor == Foo", foo.constructor == Foo);
+					console.log("subfoo.constructor == SubFoo", subfoo.constructor == SubFoo);
+					console.log("subfoo.constructor == Foo", subfoo.constructor == Foo);
+					
+					
+					console.log("foo.klass() == SubFoo", foo.klass() == SubFoo);
+					console.log("foo.klass() == Foo", foo.klass() == Foo);
+					console.log("subfoo.klass() == SubFoo", subfoo.klass() == SubFoo);
+					console.log("subfoo.klass() == Foo", subfoo.klass() == Foo);
+					
+					switch(true){
+						case foo instanceof Foo:
+							console.log("foo");
+						break;
+					}
+				}
+			
+			}
+		
+		})();
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

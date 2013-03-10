@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		var foos = []
+			for(var i=0; i<100000; i++){
+				foos.push(new Foo(Math.floor(Math.random()*11)));
+			}
+			
+			console.log(foos[0].getNumberOfInstances());
+			console.log(foos[0].getInstanceVar());
+			console.log(foos[0].getInitVar());
+			console.log(foos[99].getNumberOfInstances());
+			console.log(foos[99].getInstanceVar());
+			console.log(foos[99].getInitVar());
+			console.log(Foo.getNumberOfInstances());
+			console.log(typeof(foos[99]));
+			console.log(foos[99] instanceof Foo);
+			console.log(foos[99].reportPositionInTotal());
+			
+		function test(){
+			
+			function logTime(str){
+				var  time = new Date();
+				console.log(str + "  -  " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
+			}
+			
+			
+			function loop (values, process) {
+				var iterations = Math.floor(values.length / 8),
+					leftover = values.length % 8,
+					i = 0;
+					
+				if (leftover > 0) {
+					do {
+						process(values[i++]);
+					} while (--leftover > 0);
+				}
+				
+				do {
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+					process(values[i++]);
+				} while (--iterations > 0);
+			}
+			
+			var _total = 0;
+			function addUp(fooFoo) {
+				_total += fooFoo.getInstanceVar();
+			}
+			
+			console.time("lop");
+			//loop(foos, addUp);
+				
+				var foolength = foos.length, 
+					iterations = Math.floor(foolength / 8),
+					leftover = foolength % 8,
+					i = 0;
+					
+				if (leftover > 0) {
+					do {
+						addUp(foos[i++]);
+					} while (--leftover > 0);
+				}
+				
+				do {
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+					addUp(foos[i++]);
+				} while (--iterations > 0);
+			console.timeEnd("lop");
+			_total = 0;
+			
+			
+			console.time("for");
+			var _total = 0;
+			for(var i=0, len = foos.length; i < len; i++){
+				addUp(foos[i]);
+			}
+			//console.log(_total);
+			console.timeEnd("for");
+		}	
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="test()" value="test">
+	</body>
+</html>

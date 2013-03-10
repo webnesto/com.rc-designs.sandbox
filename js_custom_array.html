@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		function Arrae (){
+			var _this = [].slice.call(arguments,0)
+				, _Arrae = arguments.callee
+			;
+			_this.each = function(fn, scope){
+				var _scope = (typeof(scope) !== "undefined") ? scope : this
+				;
+				for(var i=0; i<this.length; i++){
+					fn.call(_scope, this[i], i);
+				}
+				return this;
+			};
+			_this.find = function(fn, scope) {
+				var _scope = (typeof(scope) !== "undefined") ? scope : this
+					, _return = new _Arrae();
+				;
+				for(var i=0; i<this.length; i++){
+					if (fn.call(_scope, this[i], i)){
+						_return.push(this[i]);
+					}
+				}
+				return _return;
+			};
+			return _this;
+		}
+		
+		var foo = new Arrae();
+		
+		foo.push("test");
+		foo.push("ing");
+		foo.push("the");
+		foo.push("thing");
+		
+		console.debug(foo);
+		
+		foo.each(function(item){
+			console.log(item);
+		}, { obj: "object" })
+		
+		console.log(foo.find(function(item){
+			return item.indexOf("i") != -1;
+		}));
+		
+		var bar = new Arrae();
+		
+		bar.push({
+			obj: "foo"
+		});
+		bar.push({
+			obj: "bar"
+		});
+		bar.push({
+			obj: "rab"
+		});
+		
+		console.log(bar.find(function(item){
+			return item.obj == this.obj;
+		}, {
+			obj: "bar"
+		}));
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<script>
+		
+		var Page = ( function () {
+		
+			
+			function runStuff() {
+				var i = 1000;
+			
+				( function() {
+					var 
+						els = document.getElementsByTagName("LI")
+					,	i = 0
+					,	l = els.length
+					;
+					
+					for ( i, l; i < l; i++ ) {
+						( function() {
+							var _i = i;
+							els[i].addEventListener( "click", function () {
+								console.log( _i );
+							}, false );
+						}() );
+					}
+					
+				}() );
+
+				console.log( i );
+			}
+		
+		
+		
+			return {
+			
+				test: function() {
+					runStuff();
+				}
+			
+			}
+		
+		}() );
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+		<ul>
+			<li>a</li>
+			<li>b</li>
+			<li>c</li>
+		</ul>
+	</body>
+</html>

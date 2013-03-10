@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<script>
+		var Arrae = function (){
+			var _scope = arguments
+				, _this
+				, _Arrae = arguments.callee
+			;
+			if(arguments.length == 1){
+				_scope = arguments[0];
+			}
+			if(_scope.length == 0){
+				 _this = [];
+			} else {
+				_this = [].slice.call(_scope,0);
+			}
+			
+			_this.constructor = _Arrae;
+			
+			_this.each = function(fn, scope){
+				var _scope = (typeof(scope) !== "undefined") ? scope : this
+				;
+				for(var i=0; i<this.length; i++){
+					fn.call(_scope, this[i], i);
+				}
+				return this;
+			};
+			_this.find = function(fn, scope) {
+				var _scope = (typeof(scope) !== "undefined") ? scope : this
+					, _return = new _Arrae();
+				;
+				for(var i=0; i<this.length; i++){
+					if (fn.call(_scope, this[i], i)){
+						_return.push(this[i]);
+					}
+				}
+				return _return;
+			};
+			_this.without = function(fn, scope) {
+				var _scope = (typeof(scope) !== "undefined") ? scope : this
+					, _return = new _Arrae();
+				;
+				for(var i=0; i<this.length; i++){
+					if (!fn.call(_scope, this[i], i)){
+						_return.push(this[i]);
+					}
+				}
+				return _return;
+			};
+			if(!_this.indexOf) { //IE doesn't support indexOf
+				//if (!Array.prototype.indexOf)
+				//{
+				  _this.indexOf = function(elt /*, from*/)
+				  {
+				    var len = this.length >>> 0;
+		
+				    var from = Number(arguments[1]) || 0;
+				    from = (from < 0)
+				         ? Math.ceil(from)
+				         : Math.floor(from);
+				    if (from < 0)
+				      from += len;
+		
+				    for (; from < len; from++)
+				    {
+				      if (from in this &&
+				          this[from] === elt)
+				        return from;
+				    }
+				    return -1;
+				  };
+				//}
+			}
+			
+			return _this;
+		};
+		
+		var foo = new Arrae();
+		
+		
+		var bar = new Arrae("foo", "bar")
+		
+		console.log(foo);
+		console.log(bar);
+		console.log(bar.constructor == Arrae);
+		bar.each(function(item, i){
+			console.log (item, i);
+		})
+		console.log(bar.indexOf("bar"));
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="test()" value="test">
+	</body>
+</html>

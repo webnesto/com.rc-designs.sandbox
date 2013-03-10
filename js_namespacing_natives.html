@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<script>
+		var Page = (function(){
+			var _this = {};
+			
+			_this.Array = (function () {
+				
+				function _Array(){
+					//Array.apply(this);
+					//var _this = [];
+					//_this.constructor = arguments.callee;
+					
+					
+					for(var i=0, len=arguments.length; i<len; i++){
+						console.log(this);
+						console.log(arguments[i]);
+						this.push(arguments[i]);
+						console.log(this);
+					}
+					
+					this.toString = function(){
+						
+					};
+					
+					return this;
+				}
+				
+				_Array.prototype = new Array();
+				
+				_Array.prototype.foo = function(){
+					return "foo " + this.length;
+				};
+				
+				return _Array;
+			})();
+			
+			_this.type_of = function(){
+				return typeof arguments[0];
+			};
+			
+			_this.Event = function(){
+				
+			}
+			
+			_this.Object = function(){
+				
+			}
+			
+			return _this;
+			
+			
+		})();
+		
+		
+		var foo = new Page.Array("cow", "dog", "cat");
+		
+		console.log(foo);
+		console.log(foo.length);
+		console.log(foo.foo());
+		
+		//console.log(Page.type_of(foo));
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

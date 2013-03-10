@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<script>
+		var ns = {};
+		/*
+		ns.Array = ( function () { 
+			
+			function _Array () {
+				var o = [].slice.call(arguments);
+				
+				function _A (){}
+				_A.prototype = o;
+				
+				_A.prototype.funky = function(){
+					var _return = this.slice();
+					for(var i=0, len = this.length; i<len; i++){
+						_return[i] = this[i]+"funky!";
+					};
+					return _return;
+				};
+				
+				var _return = new _A();
+				
+				_return.constructor = _A;
+				
+				return _return;
+			}
+			
+			_Array.isA = function (target) {
+				return target.constructor == _A;
+			}
+			
+			return _Array;
+		
+		} )();
+		*/
+		
+		ns.Array2 = ( function () { 
+			
+			function _Arrae () {
+				[].slice.call(this);
+				return this;
+			}
+			
+			_Arrae.prototype = new Array();
+			
+			_Arrae.prototype.funky = function(){
+				var _return = this.slice();
+				for(var i=0, len = this.length; i<len; i++){
+					_return[i] = this[i]+"funky!";
+				};
+				return _return;
+			};
+			
+			function _Array () {
+				var o = [].slice.call(arguments);
+			
+				function _A (){}
+				_A.prototype = o;
+				var _return = new _A();
+				
+				_return.__proto__ = new _Arrae();
+				//return _return.concat(arguments);
+				//_Arrae.apply(_return);
+				//console.log(_return.slice());
+				//_return.constructor = _A;
+				
+				return _return;
+				
+			}
+			
+			_Array.isA = function (target) {
+				//return target.constructor == _A;
+			}
+			
+			return _Array;
+		
+		} )();
+		
+		var foo = new ns.Array2(1,2);
+		var bar = new ns.Array2("cow", "dog", "rat");
+		
+		
+		foo.push("foo");
+		console.log(foo);
+		var funkyfoo = foo.funky();
+		
+		console.log(funkyfoo);
+		
+		console.log(foo[0]);
+		console.log(foo instanceof Array);
+		console.log(foo instanceof ns.Array2);
+		console.log(ns.Array2.isA(foo));
+		console.log(bar);
+		console.log(bar.length);
+		for(var i=0, len = bar.length; i<len; i++){
+			console.log(bar[i], i)
+		}
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

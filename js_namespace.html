@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		var Page = (function(){
+			if(typeof(namespace) != "undefined") var _batuna = namespace;
+			
+			var foo = {}
+			//foo.space1 = {};
+			
+			namespace = foo.space1 = {};
+			
+			namespace.Animal = (function(){
+				
+				function Animal(){
+					var _this = this;
+					
+					return _this;
+				}
+				
+				return Animal;
+			})();
+			
+			namespace.Cow = (function(){
+				var _Parent = namespace.Animal;
+				
+				function Cow(){
+					_Parent.apply(this);
+					this.constructor = namespace.Cow;
+					var _this = this;
+					
+					_this.say = function(){
+						console.debug("moo");
+					}
+					
+					return _this;
+				}
+				
+				Cow.prototype = new _Parent();
+				
+				return Cow;
+			})();
+			
+			//foo.space2 = {};
+			
+			namespace = foo.space2 = {};
+			
+			namespace.Dog = (function(){
+				var _Parent = foo.space1.Animal;
+				
+				function Dog(){
+					_Parent.apply(this);
+					this.constructor = namespace.Dog;
+					var _this = this;
+					
+					_this.say = function(){
+						console.log("bark");
+					}
+					
+					return _this;
+				}
+				
+				Dog.prototype = new _Parent();
+				
+				return Dog;
+			})();
+			
+			var cow = new foo.space1.Cow();
+			cow.say();
+			
+			var dog = new foo.space2.Dog();
+			dog.say();
+			
+		})();
+		
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

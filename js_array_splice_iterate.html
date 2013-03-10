@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		var foos = [
+				"a"
+			, "b"
+			, "b"
+			, "c"
+			, "b"
+			, "b"
+			, "b"
+			, "c"
+			, "d"
+			, "e"
+			, "f"
+			, "g"
+			, "b"
+			, "h"
+			, "i"
+			, "j"
+		]	
+		
+		for (var i=0, len=foos.length; i<len; i++){
+			if(foos[i] == "b"){
+				foos.splice(i,1);
+				i--;
+			}
+		}
+		
+		console.log(foos);
+		
+		console.log(foos.indexOf("b"));
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="test()" value="test">
+	</body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<script src="js/factoryClass.js"></script>
+		
+		<script>
+		
+		var foo = {
+			topObj: {
+				middleName: "middleName"
+			, middleArray: [
+					{
+						midArrayMember0 : "midArrayMember0"
+					, midArrayMember0Array : [
+							{
+								midArrayMember0ArrayMember0: "midArrayMember0ArrayMember0"
+							}
+						, {
+								midArrayMember0ArrayMember1: "midArrayMember0ArrayMember0"
+							}
+						, {
+								midArrayMember0ArrayMember2: "midArrayMember0ArrayMember0"
+							}
+						]
+					}
+				, {
+						midArrayMember1 : "midArrayMember1"
+					, midArrayMember1Array : [
+							{
+								midArrayMember1ArrayMember0: "midArrayMember1ArrayMember0"
+							}
+						, {
+								midArrayMember1ArrayMember1: "midArrayMember1ArrayMember0"
+							}
+						, {
+								midArrayMember1ArrayMember2: "midArrayMember1ArrayMember0"
+							}
+						]
+					}
+				, {
+						midArrayMember2 : "midArrayMember2"
+					, midArrayMember2Array : [
+							{
+								midArrayMember2ArrayMember0: "midArrayMember2ArrayMember0"
+							}
+						, {
+								midArrayMember2ArrayMember1: "midArrayMember2ArrayMember0"
+							}
+						, {
+								midArrayMember2ArrayMember2: "midArrayMember2ArrayMember0"
+							}
+						]
+					}
+				, {
+						midArrayMember3 : "midArrayMember3"
+					, midArrayMember3Array : [
+							{
+								midArrayMember3ArrayMember0: "midArrayMember3ArrayMember0"
+							}
+						, {
+								midArrayMember3ArrayMember1: "midArrayMember3ArrayMember0"
+							}
+						, {
+								midArrayMember3ArrayMember2: "midArrayMember3ArrayMember0"
+							}
+						]
+					}
+				]
+			, middleObj: {
+					midlleObjProp: "middleObjProp"
+				}
+			},
+			topName: "topName"
+		}
+		
+		function _load(data, views, templateName, parentData, iterator){
+			console.log("load", data);
+			var _finalObj = data
+				, _parsed
+				//, _template = views[templateName]
+				, _parentData = parentData || false
+				, _myData = {}
+			;
+			
+			if(typeof(iterator)!=="undefined") _finalObj.iterator = iterator;
+			
+			if(parentData) _finalObj.parent = parentData;
+			
+			function _handleArray(arry, newTemplateName){
+				var _returnList = "";
+				//TODO: if (views[newTemplateName]) {
+					for(var i=0; i<arry.length; i++){
+						var _returnObj = _load(arry[i], views, newTemplateName, arry, i+1);
+						_returnList += _returnObj;
+					}
+				//TODO: }  
+				return _returnList;
+			}
+
+			if(_finalObj instanceof Array) {
+				_parsed = _handleArray(_finalObj, templateName);
+				return(_parsed);
+			} else {
+				for (var attrib in _finalObj) {
+					if (attrib != "parent") {
+			  		if (_finalObj.hasOwnProperty(attrib)) {
+			  			if (_finalObj[attrib] instanceof Array) {
+			  				_finalObj[attrib] = _handleArray(_finalObj[attrib], attrib);
+			  			} else if (_finalObj[attrib] instanceof Object) {
+			  				//TODO: if (views[attrib]) {
+									var _returnObj = _load(_finalObj[attrib], views, attrib, _finalObj, null);
+									_finalObj[attrib] = _returnObj;
+								//TODO: }
+							}
+						}
+					}
+				}
+				if(_parentData){
+					console.log("parent:", _parentData);
+					console.log("of:", _finalObj)
+				} 
+				
+				return _process(_finalObj);
+			}
+		}
+		var _procI = 0;
+		function _process(oblit){
+			var str = "";
+			var _proc = _procI++
+			console.log("process" + _proc);
+			for(var prop in oblit){
+				str += "Here: " + _proc + " : " + prop + " = '" + oblit[prop] + "' <br />";
+			}
+			return str;
+		}
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

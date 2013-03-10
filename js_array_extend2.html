@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<script>
+		var ns = {};
+		
+		ns.Array = ( function () {
+			
+			function _A() {
+				
+			}
+			_A.prototype = [];	
+			
+			_A.prototype.toString = function(){
+				[].toString.call(this.slice())
+			}
+			
+			_A.isA = function(){
+				
+			}
+			
+			return _A;
+		} )();
+		
+		var foo = new ns.Array();
+		var bar = new ns.Array();
+		bar.push("cow", "dog", "rat");
+		
+		foo.push(1,2,"foo");
+		
+	//	var funkyfoo = foo.funky();
+		
+	//	console.log(funkyfoo);
+		
+		console.log(foo[0]);
+		console.log(foo instanceof Array);
+		console.log(foo instanceof ns.Array);
+		console.log(ns.Array.isA(foo));
+		console.log(bar.slice());
+		console.log(bar.length);
+		for(var i=0, len = bar.length; i<len; i++){
+			console.log(bar[i], i)
+		}
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

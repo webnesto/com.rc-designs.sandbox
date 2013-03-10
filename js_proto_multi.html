@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<script>
+		var ns = {};
+		
+		function one(){
+			return this;
+		}
+		
+		one.prototype.firstTest = function(){
+			console.log("one inherited");
+		}
+		
+		function two(){
+			return this;
+		}
+		
+		two.prototype.secondTest = function(){
+			console.log("two inherited");
+		}
+		
+		function sub(){
+			one.apply(this,arguments);
+			two.apply(this,arguments);
+			
+			return this;
+		}
+		
+		sub.prototype = (function(){
+			function foo (){}
+			foo.prototype = new one();
+			function foo2 (){}
+			foo2.prototype = new foo();
+			return new foo2();
+		})();
+		
+		var foo = new sub();
+		console.log(foo);
+		foo.firstTest();
+		foo.secondTest();
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>

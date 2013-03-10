@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<script>
+		var Foo = ( function () {
+			var _COW = "_cow";
+			
+			function GetSet ( property ){
+				return function( val ) {
+					if( typeof( val ) !== "undefined" ){
+						this[property] = val;
+					}
+					return this[property];
+				};
+			}
+			
+			function _Foo( ){
+				this[ _COW ];
+				this._bar;
+				
+				return this;
+			}
+			
+			_Foo.prototype.cow = new GetSet( _COW );
+			_Foo.prototype.bar = new GetSet( "_bar" );
+			
+			return _Foo;	
+		}() );
+		
+		var foo = new Foo();
+		
+		foo.cow("moo");
+		foo.bar("bars don't make noise")
+		console.log( foo.cow(), " ", foo.bar() );
+		
+		var bar = new Foo();
+		console.log( bar.cow(), bar.bar() );
+		
+		
+		var foo = {
+			_name: "foo"
+		, _sound: "foo's don't make sounds"
+		}
+		
+		function soundsByName(){
+			alert( this._name + " " + this._sound );
+		}
+		
+		
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//document.write(_load(foo));
+		</script>
+		<input type="button" onclick="Page.test()" value="test">
+	</body>
+</html>
